@@ -2,7 +2,7 @@
 <h2 mat-dialog-title>{{ data.avatar.name }}</h2>
 <mat-dialog-content>
     <div class="carousel-container">
-      <igx-carousel #carousel [navigation]="!!data.avatar.images" [loop]="!!data?.avatar?.images">
+      <igx-carousel #carousel [navigation]="!!data.avatar.images" [loop]="!!data.avatar.images">
           <ng-template *ngIf="!data?.avatar?.images" igxCarouselIndicator></ng-template>
         <igx-slide *ngIf="!data?.avatar?.images">
           <div class="image-container">
