@@ -1,7 +1,7 @@
 # Stage 1: Build the Angular application
 FROM node:14 AS builder
 
-WORKDIR ../../src/app
+WORKDIR /src/app
 
 COPY . .
 
