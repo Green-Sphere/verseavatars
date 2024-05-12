@@ -1,0 +1,20 @@
+#header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#header > h1 {
+    font-size: 7vw;
+}
+
+#header > #menu {
+    width: 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#header mat-icon{
+    transform: scale(1.5);
+    cursor: pointer;
+}

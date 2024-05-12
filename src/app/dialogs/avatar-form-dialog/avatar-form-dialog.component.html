@@ -1,0 +1,49 @@
+<div class='spinner-overlay' *ngIf="loading"><mat-spinner></mat-spinner></div>
+<mat-dialog-content id="newAvatarDialog">
+    <div id="form-section">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input [disabled]="loading" matInput [(ngModel)]="name" required />
+            <mat-error>Name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Game Version</mat-label>
+            <input [disabled]="loading" matInput [(ngModel)]="gameVersion" required />
+            <mat-error>Game Version is required</mat-error>
+        </mat-form-field>
+
+        <div id="configUpload">
+            <mat-label>Config File</mat-label>
+            <button [disabled]="loading" type="button" mat-raised-button (click)="configFileInput.click()">Choose File</button>
+            <input [disabled]="loading" hidden (change)="onConfigFileSelected($event)" #configFileInput type="file" accept=".chf" />
+        </div>
+        <span class="file-name">{{configFile?.name}}</span>
+    </div>
+
+    <div id="imagesUpload">
+        <mat-label>Front Image</mat-label>
+        <button [disabled]="loading" type="button" mat-raised-button (click)="frontImageFileInput.click()">Choose File</button>
+        <input [disabled]="loading" hidden (change)="onFrontImageFileSelected($event)" #frontImageFileInput type="file" accept="image/*" />
+        <img id="blah" [src]="frontImageSrc"/>
+    </div>
+    
+
+    <div id="imagesUpload">
+        <mat-label>Profile Image</mat-label>
+        <button [disabled]="loading" type="button" mat-raised-button (click)="profileImageFileInput.click()">Choose File</button>
+        <input [disabled]="loading" hidden (change)="onProfileImageFileSelected($event)" #profileImageFileInput type="file" accept="image/*" />
+        <img id="blah" [src]="profileImageSrc"/>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button [disabled]="loading" mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!formValid() || loading"
+    (click)="onSubmit()">
+    Upload
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,23 @@
+<div class="avatar-card">
+  <h3 (click)="openAvatarDialog(avatar)">{{ avatar?.name }}</h3>
+  <div class="carousel-container">
+    <igx-carousel #carousel [navigation]="!!avatar?.images?.length" [loop]="!!avatar?.images?.length">
+        <ng-template *ngIf="!avatar?.images?.length" igxCarouselIndicator></ng-template>
+        <igx-slide *ngIf="!avatar?.images?.length" (click)="openAvatarDialog(avatar)">
+          <div class="image-container">
+            <img [src]="'assets/images/placeholder.png'" />
+          </div>
+        </igx-slide>
+        <igx-slide *ngFor="let slide of avatar?.images" (click)="openAvatarDialog(avatar)">
+          <div class="image-container">
+            <img [src]="slide" />
+          </div>
+        </igx-slide>
+      </igx-carousel>
+    </div>
+    <div class="voting-section">
+      <mat-icon [class]="avatar?.uservote === true ? 'upvoted' : ''" (click)="vote('up')">arrow_upward</mat-icon>
+      <span class="score">{{ avatarScore() }}</span>
+      <mat-icon [class]="avatar?.uservote === false ? 'downvoted' : ''" (click)="vote('down')">arrow_downward</mat-icon>
+    </div>
+</div>

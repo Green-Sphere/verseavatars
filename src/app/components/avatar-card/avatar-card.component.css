@@ -1,0 +1,37 @@
+.avatar-card{
+    width: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.avatar-card h3 {
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-container {
+    height: 100%;
+}
+
+.voting-section {
+    width: 80%;
+    margin: 2px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.upvoted {
+    color: green;
+}
+
+.downvoted { 
+    color: red;
+}

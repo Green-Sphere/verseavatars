@@ -1,0 +1,11 @@
+<div id="header">
+    <div id="name">
+        <h1>VerseAvatar</h1>
+    </div>
+    <div id="menu">
+        <mat-icon *ngIf="userLoggedIn" >settings</mat-icon>
+        <mat-icon *ngIf="userLoggedIn" (click)="logoutDialog()">logout</mat-icon>
+        <button *ngIf="!userLoggedIn" mat-stroked-button color="primary" (click)="loginDialog()">Login</button>
+        <button *ngIf="!userLoggedIn"mat-flat-button color="primary" (click)="signupDialog()">Sign Up</button>
+    </div>
+</div>

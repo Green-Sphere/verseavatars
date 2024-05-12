@@ -1,0 +1,15 @@
+.add-button-container {
+    position: absolute;
+    bottom: 4vw;
+    right: 4vw;
+}
+
+#avatars {
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.add-button-container {
+    z-index: 9998;
+}

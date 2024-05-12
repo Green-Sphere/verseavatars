@@ -1,0 +1,24 @@
+<div class='spinner-overlay' *ngIf="loading"><mat-spinner></mat-spinner></div>
+<h2 mat-dialog-title>{{ data.avatar.name }}</h2>
+<mat-dialog-content>
+    <div class="carousel-container">
+      <igx-carousel #carousel [navigation]="!!data.avatar.images" [loop]="!!data?.avatar?.images">
+          <ng-template *ngIf="!data?.avatar?.images" igxCarouselIndicator></ng-template>
+        <igx-slide *ngIf="!data?.avatar?.images">
+          <div class="image-container">
+            <img [src]="'assets/images/placeholder.png'" />
+          </div>
+        </igx-slide>
+        <igx-slide *ngFor="let slide of data?.avatar?.images">
+          <div class="image-container">
+            <img [src]="slide" />
+          </div>
+        </igx-slide>
+      </igx-carousel>
+      <h3></h3>
+      <p>Game Version: {{ data.avatar.gameVersion }} </p>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button [disabled]="loading" color="warn" mat-raised-button *ngIf="data?.currentUser?.id === data.avatar.owner" (click)="deleteAvatar()">{{deleteConfirm ? 'Really Delete?' : 'Delete'}}</button>
+</mat-dialog-actions>
