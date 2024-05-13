@@ -22,11 +22,11 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: jdslimz
+          username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
       - name: Preset Image Name
-        run: echo "IMAGE_URL=$(echo ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/git:$(echo ${{ github.sha }} | cut -c1-7) | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "IMAGE_URL=$(echo ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$(echo ${{ github.sha }} | cut -c1-7) | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v5
