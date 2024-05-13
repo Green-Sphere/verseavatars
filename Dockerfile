@@ -11,7 +11,7 @@ RUN npm run build --prod
 # Stage 2: Serve the Angular application using nginx
 FROM nginx:alpine
 
-COPY dist/verseavatars /usr/share/nginx/html
+COPY --from=builder /src/app/dist/verseavatars /usr/share/nginx/html
 
 EXPOSE 80
 
