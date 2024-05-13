@@ -1,1 +1,39 @@
-<p>signup-dialog works!</p>
+<h1 mat-dialog-title>Sign Up</h1>
+<mat-dialog-content>
+  <form id="signup-form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput name="email" placeholder="Email" [(ngModel)]="email" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        name="password"
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        name="confirmPassword"
+        type="password"
+        placeholder="Confirm Password"
+        [(ngModel)]="confirmPassword"
+        required
+      />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!formValid()"
+    >
+      Submit
+    </button>
+  </form>
+</mat-dialog-content>

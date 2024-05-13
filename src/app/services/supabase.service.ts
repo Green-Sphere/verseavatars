@@ -27,7 +27,7 @@ export class SupabaseService {
     });
   }
 
-  async signup(name: string, email: string, password: string) {
+  async signup(email: string, password: string) {
     return new Promise<void>(async (resolve, reject) => {
       const { data, error } = await supabase.auth.signUp({
         email: email,

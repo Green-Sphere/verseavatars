@@ -3,20 +3,20 @@ Login
 </h1>
 
 <mat-dialog-content>
-  <mat-form-field>
-    <input matInput placeholder="Username" [(ngModel)]="username" />
-  </mat-form-field>
+  <form id="login-form" (ngSubmit)="login()">
+    <mat-form-field>
+      <input matInput name="email" placeholder="Email" [(ngModel)]="email" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <input
-      matInput
-      type="password"
-      placeholder="Password"
-      [(ngModel)]="password"
-    />
-  </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="password"
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+      />
+    </mat-form-field>
+    <button mat-raised-button color="primary">Login</button>
+  </form>
 </mat-dialog-content>
-
-<mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="login()">Login</button>
-</mat-dialog-actions>

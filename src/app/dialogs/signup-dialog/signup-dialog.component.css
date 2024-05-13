@@ -1,0 +1,8 @@
+h1 {
+    margin: 20px 0;
+}
+
+#signup-form {
+    display: flex;
+    flex-direction: column;
+}

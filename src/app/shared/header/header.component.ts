@@ -21,7 +21,10 @@ export class HeaderComponent {
   @Output() loginChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   loginDialog(){
-    const dialogRef = this.dialog.open(LoginDialogComponent);
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
+      height: '400px',
+      width: '600px',
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -31,7 +34,10 @@ export class HeaderComponent {
   }
 
   signupDialog(){
-    const dialogRef = this.dialog.open(SignupDialogComponent);
+    const dialogRef = this.dialog.open(SignupDialogComponent, {
+      height: '400px',
+      width: '600px',
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

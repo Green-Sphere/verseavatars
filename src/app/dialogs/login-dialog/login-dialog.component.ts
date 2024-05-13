@@ -34,7 +34,7 @@ import {
   styleUrl: './login-dialog.component.css'
 })
 export class LoginDialogComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(
@@ -44,7 +44,7 @@ export class LoginDialogComponent {
   ) {}
 
   login(){
-    this.supabaseService.login(this.username, this.password).then(() => {
+    this.supabaseService.login(this.email, this.password).then(() => {
       this.dialogRef.close(true);
     }).catch(error => {
       this.snackbar.open('Login failed: ' + error.message, 'Close', {

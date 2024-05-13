@@ -2,12 +2,7 @@ h1 {
     margin: 20px 0;
 }
 
-mat-dialog-content {
+#login-form {
     display: flex;
     flex-direction: column;
-}
-
-mat-dialog-actions button {
-    width: 90%;
-    margin: auto;
 }
