@@ -22,12 +22,6 @@ export class AvatarCardComponent {
 
   constructor(private supabaseService: SupabaseService, public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
-  avatarScore(){
-    const upvotes = this.avatar?.upvotes || 0;
-    const downvotes = this.avatar?.downvotes || 0;
-    return (upvotes - downvotes);
-  }
-
   async updateAvatar(){
     if(this.avatar?.id) this.avatar = await this.supabaseService.getAvatar(this.avatar?.id);
     console.log(this.avatar);
@@ -51,7 +45,7 @@ export class AvatarCardComponent {
     }
 
     const voteDirection = direction === 'up' ? true : false;
-    if(this.avatar?.uservote === voteDirection){
+    if(this.avatar?.user_vote === voteDirection){
       this.supabaseService.removeVote(this.avatar.id, this.currentUser!.id).then(() => {
         this.updateAvatar();
       });

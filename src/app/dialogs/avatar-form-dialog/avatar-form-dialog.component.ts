@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -34,7 +34,7 @@ import {
   templateUrl: './avatar-form-dialog.component.html',
   styleUrl: './avatar-form-dialog.component.css'
 })
-export class AvatarFormDialogComponent {
+export class AvatarFormDialogComponent implements OnInit {
   name: string = '';
   gameVersion: string = '';
   configFile: File | null = null;
@@ -43,12 +43,17 @@ export class AvatarFormDialogComponent {
   frontImageSrc: string | ArrayBuffer  | null = null;
   profileImageSrc: string | ArrayBuffer  | null = null;
   loading: boolean = false;
+  game_versions: string[] = [];
 
   constructor(
     private supabaseService: SupabaseService,
     public dialogRef: MatDialogRef<AvatarFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { avatar: any }
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    this.game_versions = await this.supabaseService.getGameVersions();
+  }
 
   onCancel(){
     this.dialogRef.close();
@@ -77,7 +82,7 @@ export class AvatarFormDialogComponent {
       }
 
       if(this.configFile){
-        await this.supabaseService.uploadAvatarConfig(this.configFile, newAvatarId).then((data) => {
+        await this.supabaseService.uploadAvatarConfig(this.configFile, newAvatarId, this.name).then((data) => {
           console.log(data);
         }).catch(error => {
           console.error(`Error uploading config file: `, error);

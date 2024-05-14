@@ -9,6 +9,7 @@ const supabase = createClient('https://pyspvbywwfcxmsldxrvl.supabase.co', 'eyJhb
 export class SupabaseService {
   constructor() { }
 
+  //User
   async login(email: string, password: string) {
     return new Promise<void>(async (resolve, reject) => {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -45,6 +46,8 @@ export class SupabaseService {
     });
   }
 
+
+  //Avatar
   async createAvatar(name:string, gameVersion: string){
     return new Promise<number>(async (resolve, reject) => {
       const currentUser = await this.getLoggedInUser();
@@ -69,6 +72,8 @@ export class SupabaseService {
       let query = supabase.from('v_all_avatars').select();
       if (orderBy) {
         query = query.order(orderBy, { ascending: ascending });
+      } else {
+        query = query.order('score', { ascending: false });
       }
       const { data, error } = await query;
 
@@ -134,6 +139,17 @@ export class SupabaseService {
     });
   }
 
+  async downloadAvatar(id: number, name: string): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
+      const { data } = await supabase.storage
+        .from('avatar_images')
+        .getPublicUrl(`${id}/${name.slice(0,15)}.chf`);
+
+      
+      if(data) resolve(data.publicUrl);
+    });
+  }
+
   async updateAvatar(id: string, name: string, exportId: string) {
     return new Promise<void>(async (resolve, reject) => {
       const { data, error } = await supabase
@@ -163,31 +179,16 @@ export class SupabaseService {
     });
   }
 
-  async uploadAvatarConfig(file: File, avatarId: number): Promise<string> {
+  async uploadAvatarConfig(file: File, avatarId: number, name:string): Promise<string> {
     return new Promise<any>(async (resolve, reject) => {
       const { data, error } = await supabase.storage
         .from('avatar_images')
-        .upload(`${avatarId}/config/${file.name}`, file);
+        .upload(`${avatarId}/config/${name.slice(0,15)}.chf`, file);
 
       if (error) {
         reject(error);
       } else {
         resolve(data);
-      }
-    });
-  }
-
-  async avatarVote(avatarId: number, userId: string, vote: boolean) {
-    return new Promise<void>(async (resolve, reject) => {
-      const { data, error } = await supabase
-        .from('votes')
-        .upsert({ avatar_id: avatarId, user_id: userId, vote_type: vote })
-        .select();
-
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
       }
     });
   }
@@ -204,6 +205,37 @@ export class SupabaseService {
         .from('avatars')
         .delete()
         .eq('id', id);
+
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  //Game Versions
+  async getGameVersions(): Promise<Array<string>> {
+    return new Promise<Array<string>>(async (resolve, reject) => {
+      const { data, error } = await supabase
+        .from('game_versions')
+        .select('version');
+
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data.map(v => v.version) || []);
+      }
+    });
+  }
+
+  //Vote
+  async avatarVote(avatarId: number, userId: string, vote: boolean) {
+    return new Promise<void>(async (resolve, reject) => {
+      const { data, error } = await supabase
+        .from('votes')
+        .upsert({ avatar_id: avatarId, user_id: userId, vote_type: vote })
+        .select();
 
       if (error) {
         reject(error);
@@ -230,6 +262,38 @@ export class SupabaseService {
       }
     });
   }
+
+  //Star
+  async starAvatar(avatarId: number, userId: string) {
+    return new Promise<void>(async (resolve, reject) => {
+      const { data, error } = await supabase
+        .from('stars')
+        .upsert({ avatar_id: avatarId, user_id: userId })
+        .select();
+
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  async removeStarAvatar(avatarId: number, userId: string) {
+    return new Promise<void>(async (resolve, reject) => {
+      const { data, error } = await supabase
+        .from('stars')
+        .delete()
+        .eq('avatar_id', avatarId)
+        .eq('user_id', userId);
+
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  }
 }
 
 
@@ -240,8 +304,8 @@ export interface Avatar {
   owner: string;
   images: string[];
   export_id: string;
-  upvotes: number;
-  downvotes: number;
-  gameVersion: string;
-  uservote?: boolean;
+  score: number;
+  game_version: string;
+  user_vote?: boolean;
+  user_star?: boolean;
 }

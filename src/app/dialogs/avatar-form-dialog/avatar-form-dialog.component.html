@@ -9,7 +9,10 @@
 
         <mat-form-field>
             <mat-label>Game Version</mat-label>
-            <input [disabled]="loading" matInput [(ngModel)]="gameVersion" required />
+            <select [disabled]="loading" matNativeControl [(ngModel)]="gameVersion" required>
+                <option value="" disabled selected>Select Game Version</option>
+                <option *ngFor="let version of game_versions" [value]="version">{{ version }}</option>
+            </select>
             <mat-error>Game Version is required</mat-error>
         </mat-form-field>
 

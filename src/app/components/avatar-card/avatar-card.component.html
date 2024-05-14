@@ -16,8 +16,8 @@
       </igx-carousel>
     </div>
     <div class="voting-section">
-      <mat-icon [class]="avatar?.uservote === true ? 'upvoted' : ''" (click)="vote('up')">arrow_upward</mat-icon>
-      <span class="score">{{ avatarScore() }}</span>
-      <mat-icon [class]="avatar?.uservote === false ? 'downvoted' : ''" (click)="vote('down')">arrow_downward</mat-icon>
+      <mat-icon [class]="avatar?.user_vote === true ? 'upvoted' : ''" (click)="vote('up')">arrow_upward</mat-icon>
+      <span class="score">{{ avatar?.score }}</span>
+      <mat-icon [class]="avatar?.user_vote === false ? 'downvoted' : ''" (click)="vote('down')">arrow_downward</mat-icon>
     </div>
 </div>
