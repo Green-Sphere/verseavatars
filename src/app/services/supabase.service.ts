@@ -143,7 +143,7 @@ export class SupabaseService {
     return new Promise<string>(async (resolve, reject) => {
       const { data } = await supabase.storage
         .from('avatar_images')
-        .getPublicUrl(`${id}/${name.slice(0,15)}.chf`);
+        .getPublicUrl(`${id}/config/${name.slice(0,15)}.chf`);
 
       
       if(data) resolve(data.publicUrl);
