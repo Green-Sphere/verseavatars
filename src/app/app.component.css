@@ -13,3 +13,14 @@
 .add-button-container {
     z-index: 9998;
 }
+
+/*Snackbars*/
+::ng-deep .success-snackbar {
+    --mdc-snackbar-container-color: rgb(11, 211, 11);
+    --mdc-snackbar-supporting-text-color: whitesmoke;
+}
+
+::ng-deep .error-snackbar {
+    --mdc-snackbar-container-color: rgb(206, 27, 27);
+    --mdc-snackbar-supporting-text-color: whitesmoke;
+}

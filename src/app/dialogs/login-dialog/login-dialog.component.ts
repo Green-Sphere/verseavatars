@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SupabaseService } from '../../services/supabase.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../services/snackbar-service.service';
 import {
   MatDialogRef,
   MatDialogTitle,
@@ -40,16 +40,14 @@ export class LoginDialogComponent {
   constructor(
     private supabaseService: SupabaseService, 
     private dialogRef: MatDialogRef<LoginDialogComponent>, 
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   login(){
     this.supabaseService.login(this.email, this.password).then(() => {
       this.dialogRef.close(true);
     }).catch(error => {
-      this.snackbar.open('Login failed: ' + error.message, 'Close', {
-        duration: 3000
-      });
+      this.snackbarService.showSnackbar('error', 'Login failed: ' + error.message);
     });
   }
 }

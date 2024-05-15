@@ -7,6 +7,7 @@ import { AvatarDialogComponent } from '../../dialogs/avatar-dialog/avatar-dialog
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { SnackbarService } from '../../services/snackbar-service.service';
 
 @Component({
   selector: 'app-avatar-card',
@@ -20,7 +21,7 @@ export class AvatarCardComponent {
   @Input() currentUser: User | null = null;
   @Output() avatarUpdated: EventEmitter<Avatar> = new EventEmitter<Avatar>();
 
-  constructor(private supabaseService: SupabaseService, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(private supabaseService: SupabaseService, public dialog: MatDialog, private snackBar: MatSnackBar, private snackbarService: SnackbarService) {}
 
   async updateAvatar(){
     if(this.avatar?.id) this.avatar = await this.supabaseService.getAvatar(this.avatar?.id);
@@ -40,7 +41,7 @@ export class AvatarCardComponent {
 
   vote(direction: string){
     if(!this.currentUser){
-      this.snackBar.open("You must be logged in to vote");
+      this.snackbarService.showSnackbar('normal', 'You must be logged in to vote');
       return;
     }
 

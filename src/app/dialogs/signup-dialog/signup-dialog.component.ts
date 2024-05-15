@@ -5,7 +5,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SupabaseService } from '../../services/supabase.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   MatDialogRef,
   MatDialogTitle,
@@ -14,6 +13,7 @@ import {
   MatDialogActions,
   MatDialogClose
 } from '@angular/material/dialog';
+import { SnackbarService } from '../../services/snackbar-service.service';
 
 @Component({
   selector: 'app-signup-dialog',
@@ -41,7 +41,7 @@ export class SignupDialogComponent {
   constructor(
     private supabaseService: SupabaseService,
     private dialogRef: MatDialogRef<SignupDialogComponent>,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   formValid(){
@@ -53,10 +53,10 @@ export class SignupDialogComponent {
       this.supabaseService.signup(this.email, this.password)
         .then(() => {
           this.dialogRef.close(true);
-          this.snackbar.open('Signup successful, check your email for a confirmation link!', 'Close', { duration: 3000 });
+          this.snackbarService.showSnackbar('success', 'Signup successful, check your email for a confirmation link!', 5000);
         })
         .catch(error => {
-          this.snackbar.open('Signup failed: ' + error.message, 'Close', { duration: 5000 });
+          this.snackbarService.showSnackbar('error', 'Signup failed: ' + error.message, 3000);
         });
     }
 
