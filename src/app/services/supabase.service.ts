@@ -67,15 +67,20 @@ export class SupabaseService {
     });
   }
 
-  async getAllAvatars(orderBy:string = '', ascending:boolean = false) {
-    return new Promise<Array<Avatar>>(async (resolve, reject) => {
-      let query = supabase.from('v_all_avatars').select();
-      if (orderBy) {
-        query = query.order(orderBy, { ascending: ascending });
-      } else {
-        query = query.order('score', { ascending: false });
+  async getAllAvatars(pageData: PageData, filters: Filter[]): Promise<{ avatars: any[], count: number }> {
+    return new Promise<any>(async (resolve, reject) => {
+      let query = supabase.from('v_all_avatars').select('*', { count: 'exact' });
+      
+      for (const filter of filters) {
+        query = query.eq(filter.field, filter.value);
       }
-      const { data, error } = await query;
+
+      if(pageData) {
+        console.log(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex * pageData.pageSize) + pageData.pageSize - 1);
+        query = query.limit(pageData.pageSize)
+        .range(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex * pageData.pageSize) + pageData.pageSize - 1);}
+      
+      const { data, error, count } = await query;
 
       if (data) {
         for (const avatar of data) {
@@ -83,10 +88,16 @@ export class SupabaseService {
         }
       }
 
+      const response = {
+        avatars: data || [],
+        count: count || 0
+      }
+
       if (error) {
         reject(error);
       } else {
-        resolve(data || []);
+        console.log(response);
+        resolve(response);
       }
     });
   }
@@ -296,8 +307,6 @@ export class SupabaseService {
   }
 }
 
-
-
 export interface Avatar {
   id: number;
   name: string;
@@ -308,4 +317,14 @@ export interface Avatar {
   game_version: string;
   user_vote?: boolean;
   user_star?: boolean;
+}
+
+export interface Filter {
+  field: string;
+  value: string;
+}
+
+export interface PageData {
+  pageSize: number;
+  pageIndex: number;
 }

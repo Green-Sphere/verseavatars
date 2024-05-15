@@ -30,8 +30,10 @@
 
 .upvoted {
     color: green;
+    text-shadow: 0px 0px 10px #00ff1c;
 }
 
 .downvoted { 
     color: red;
+    text-shadow: 0px 0px 10px #f72020;
 }
