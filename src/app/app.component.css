@@ -4,6 +4,10 @@
     right: 4vw;
 }
 
+#front-page-list {
+    min-height: 80%;
+}
+
 #avatars {
     display: grid;
     grid-auto-rows: 1fr;
@@ -12,6 +16,13 @@
 
 .add-button-container {
     z-index: 9998;
+}
+
+.spinner {
+    min-height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /*Snackbars*/

@@ -3,7 +3,9 @@
   (loginChange)="reloadPage();"></app-header>
 
 <!-- Might move to component later-->
-<div id="front-page-list">
+<div class='spinner' *ngIf="loading"><mat-spinner></mat-spinner></div>
+
+<div *ngIf="!loading" id="front-page-list">
   <div id="filter-bar">
     Filters will go here
   </div>

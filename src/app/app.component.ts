@@ -11,11 +11,12 @@ import { User } from '@supabase/supabase-js';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AvatarFormDialogComponent } from './dialogs/avatar-form-dialog/avatar-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   title = 'verseavatars';
   avatars: Avatar[] = [];
   currentUser: User | null = null;
+  loading: boolean = false;
 
   constructor(private supabaseService: SupabaseService, private dialog: MatDialog) {} 
   
@@ -32,7 +34,9 @@ export class AppComponent implements OnInit {
   }
 
   async getAvatars(){
+    this.loading = true;
     this.avatars = await this.supabaseService.getAllAvatars();
+    this.loading = false;
   }
 
   async getCurrentUser() {
