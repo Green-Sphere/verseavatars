@@ -16,6 +16,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import { SnackbarService } from '../../services/snackbar-service.service';
 
 @Component({
   selector: 'app-avatar-form-dialog',
@@ -48,6 +49,7 @@ export class AvatarFormDialogComponent implements OnInit {
   constructor(
     private supabaseService: SupabaseService,
     public dialogRef: MatDialogRef<AvatarFormDialogComponent>,
+    private snackbarService: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public data: { avatar: any }
   ) {}
 
@@ -116,15 +118,54 @@ export class AvatarFormDialogComponent implements OnInit {
     }
   }
 
-  onConfigFileSelected(event: any): void {
-    this.configFile = event.target.files[0] ?? null;
-    console.log('Config file selected:', this.configFile?.type);
-    
+  async onConfigFileSelected(event: any) {
+    this.validateFile(event.target.files[0]).then(() => {
+      console.log(event.target.files[0]);
+      this.configFile = event.target.files[0];
+    }).catch((e) => {
+      console.log(e)
+      this.snackbarService.showSnackbar('error', e.message);
+    });
   }
 
   formValid(){
     return this.name.trim() !== '' && this.gameVersion.trim() !== '' && this.configFile !== null && this.frontImage !== null && this.profileImage !== null;
 
+  }
+
+  validateFile(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      // Ensure the file is at least 2 bytes long
+      if (file.size < 2) {
+        reject(new Error('File is too small to contain the required data.'));
+        return;
+      }
+
+      reader.onload = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          const array = Array.from(new Uint8Array(reader.result));
+          if(array.length > 4096) reject(new Error('File size exceeds the maximum allowed size of 4MB'));
+          const binaryString = String.fromCharCode(...array);
+          const first2Chars = binaryString.slice(0, 2);
+          console.log(first2Chars);
+          if (first2Chars === 'BB') {
+            resolve(file);
+          } else {
+            reject(new Error('File does not start with BB in hexadecimal'));
+          }
+        } else {
+          reject(new Error('Error reading file: no result from FileReader'));
+        }
+      };
+
+      reader.onerror = (error) => {
+        reject(new Error('Error reading file: ' + error));
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
   }
 
 }
