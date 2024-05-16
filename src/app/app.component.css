@@ -17,6 +17,7 @@
 
 #avatars {
     display: grid;
+    justify-content: space-around;
     grid-auto-rows: 1fr;
     grid-template-columns: repeat(auto-fit, minmax(400px, .25fr));
 }
