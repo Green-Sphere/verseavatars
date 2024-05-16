@@ -7,6 +7,7 @@ const supabase = createClient('https://pyspvbywwfcxmsldxrvl.supabase.co', 'eyJhb
   providedIn: 'root'
 })
 export class SupabaseService {
+  bucketURL = 'https://pyspvbywwfcxmsldxrvl.supabase.co/storage/v1/object/public/avatar_images/';
   constructor() { }
 
   //User
@@ -92,7 +93,6 @@ export class SupabaseService {
       }
 
       if(pageData) {
-        console.log(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex * pageData.pageSize) + pageData.pageSize - 1);
         query = query.limit(pageData.pageSize)
         .range(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex * pageData.pageSize) + pageData.pageSize - 1);}
       
@@ -100,9 +100,10 @@ export class SupabaseService {
 
       if (data) {
         for (const avatar of data) {
-          avatar.images = await this.getAvatarImages(avatar.id);
-          avatar.tags = await this.getAvatarTags(avatar.id);
-          console.log(avatar);
+          avatar.images = [
+            `${this.bucketURL}${avatar.id}/images/front`, 
+            `${this.bucketURL}${avatar.id}/images/profile`
+          ];
         }
       }
 
@@ -114,7 +115,6 @@ export class SupabaseService {
       if (error) {
         reject(error);
       } else {
-        console.log(response);
         resolve(response);
       }
     });
@@ -129,9 +129,10 @@ export class SupabaseService {
 
       if (data) {
         for (const avatar of data) {
-          avatar.images = await this.getAvatarImages(id);
-          avatar.tags = await this.getAvatarTags(id);
-          console.log(avatar);
+          avatar.images = [
+            `${this.bucketURL}${avatar.id}/images/front`, 
+            `${this.bucketURL}${avatar.id}/images/profile`
+          ];
         }
       }
 
@@ -314,7 +315,6 @@ export class SupabaseService {
   }
 
   async removeVote(avatarId: number, userId: string) {
-    console.log(avatarId, userId);
     return new Promise<void>(async (resolve, reject) => {
       const { data, error } = await supabase
         .from('votes')
@@ -325,7 +325,6 @@ export class SupabaseService {
       if (error) {
         reject(error);
       } else {
-        console.log(data);
         resolve();
       }
     });
