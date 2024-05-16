@@ -36,6 +36,7 @@ import { SnackbarService } from '../../services/snackbar-service.service';
   styleUrl: './avatar-form-dialog.component.css'
 })
 export class AvatarFormDialogComponent implements OnInit {
+  nameLength: number = 32;
   name: string = '';
   gameVersion: string = '';
   configFile: File | null = null;
@@ -71,7 +72,10 @@ export class AvatarFormDialogComponent implements OnInit {
         await this.supabaseService.uploadAvatarImage(this.frontImage, newAvatarId, 'front').then((data) => {
           console.log(data);
         }).catch(error => {
-          console.error(`Error uploading image: `, error);
+          this.snackbarService.showSnackbar('error', `Error uploading image file`);
+          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+            console.error(`Error deleting avatar`);
+          });
         });
       }
 
@@ -79,7 +83,10 @@ export class AvatarFormDialogComponent implements OnInit {
         await this.supabaseService.uploadAvatarImage(this.profileImage, newAvatarId, 'profile').then((data) => {
           console.log(data);
         }).catch(error => {
-          console.error(`Error uploading image: `, error);
+          this.snackbarService.showSnackbar('error', `Error uploading image file`);
+          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+            console.error(`Error deleting avatar`);
+          });
         });
       }
 
@@ -87,7 +94,10 @@ export class AvatarFormDialogComponent implements OnInit {
         await this.supabaseService.uploadAvatarConfig(this.configFile, newAvatarId, this.name).then((data) => {
           console.log(data);
         }).catch(error => {
-          console.error(`Error uploading config file: `, error);
+          this.snackbarService.showSnackbar('error', `Error uploading config file`);
+          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+            console.error(`Error deleting avatar`);
+          });
         });
       }
     }).catch(error => {
