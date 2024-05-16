@@ -67,12 +67,28 @@ export class SupabaseService {
     });
   }
 
-  async getAllAvatars(pageData: PageData, filters: Filter[]): Promise<{ avatars: any[], count: number }> {
+  async getAllAvatars(pageData: PageData, filters: any): Promise<{ avatars: any[], count: number }> {
     return new Promise<any>(async (resolve, reject) => {
       let query = supabase.from('v_all_avatars').select('*', { count: 'exact' });
       
-      for (const filter of filters) {
-        query = query.eq(filter.field, filter.value);
+      if (filters.search) {
+        query = query.ilike('name', `%${filters.search}%`);
+      }
+  
+      if (filters.game_version) {
+        query = query.eq('game_version', filters.game_version);
+      }
+  
+      if (filters.liked) {
+        query = query.eq('user_vote', true);
+      }
+  
+      if (filters.disliked) {
+        query = query.eq('user_vote', false);
+      }
+  
+      if (filters.starred) {
+        query = query.eq('user_star', true);
       }
 
       if(pageData) {

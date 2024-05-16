@@ -4,6 +4,13 @@
     right: 4vw;
 }
 
+#filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
 #front-page-list {
     min-height: 80%;
 }

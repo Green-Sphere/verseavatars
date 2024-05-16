@@ -3,13 +3,26 @@
   (loginChange)="reloadPage();"></app-header>
 
 <!-- Might move to component later-->
-<div class='spinner' *ngIf="loading"><mat-spinner></mat-spinner></div>
-
 <div id="front-page-list">
   <div id="filter-bar">
-    Filters will go here
+      <mat-form-field>
+        <input (keyup)="getAvatars()" matInput placeholder="Search:" [(ngModel)]="filters.search">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select (change)="getAvatars()" placeholder="Game Version" [(ngModel)]="filters.game_version">
+          <mat-option *ngFor="let version of game_versions" [value]="version">
+            {{ version }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox (change)="getAvatars()" [(ngModel)]="filters.liked">Liked</mat-checkbox>
+      <mat-checkbox (change)="getAvatars()" [(ngModel)]="filters.disliked">Disliked</mat-checkbox>
+      <mat-checkbox (change)="getAvatars()" [(ngModel)]="filters.starred">Starred</mat-checkbox>
   </div>
 
+  <div class='spinner' *ngIf="loading"><mat-spinner></mat-spinner></div>
   <div *ngIf="!loading" id="avatars">
     <app-avatar-card 
       *ngFor="let avatar of avatars" 

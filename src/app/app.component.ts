@@ -13,11 +13,16 @@ import { AvatarFormDialogComponent } from './dialogs/avatar-form-dialog/avatar-f
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule, MatPaginatorModule],
+  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatCheckboxModule, FormsModule, MatInputModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -29,8 +34,15 @@ export class AppComponent implements OnInit {
     pageSize: 12,
     pageIndex: 0
   }
-  filters: Filter[] = [];
+  filters = {
+    search: '',
+    game_version: '',
+    liked: false,
+    disliked: false,
+    starred: false
+  };
   currentUser: User | null = null;
+  game_versions: string[] = [];
   loading: boolean = false;
 
   constructor(private supabaseService: SupabaseService, private dialog: MatDialog) {} 
@@ -38,6 +50,7 @@ export class AppComponent implements OnInit {
   async ngOnInit(){
     this.getAvatars();
     this.getCurrentUser();
+    this.game_versions = await this.supabaseService.getGameVersions();
   }
 
   async getAvatars(e: PageEvent | null = null) {
