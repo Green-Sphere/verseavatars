@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -20,7 +21,7 @@ import { User } from '@supabase/supabase-js';
 @Component({
   selector: 'app-avatar-dialog',
   standalone: true,
-  imports: [AvatarCardComponent, IgxCarouselModule, CommonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatProgressSpinnerModule, MatButtonModule, MatIcon],
+  imports: [AvatarCardComponent, IgxCarouselModule, CommonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatProgressSpinnerModule, MatButtonModule, MatIcon, MatChipsModule],
   templateUrl: './avatar-dialog.component.html',
   styleUrl: './avatar-dialog.component.css'
 })

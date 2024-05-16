@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SupabaseService } from '../../services/supabase.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -31,12 +32,13 @@ import { SnackbarService } from '../../services/snackbar-service.service';
     MatDialogClose,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule],
+    MatProgressSpinnerModule,
+    MatChipsModule],
   templateUrl: './avatar-form-dialog.component.html',
   styleUrl: './avatar-form-dialog.component.css'
 })
 export class AvatarFormDialogComponent implements OnInit {
-  nameLength: number = 32;
+  inputLength: number = 32;
   name: string = '';
   gameVersion: string = '';
   configFile: File | null = null;
@@ -46,6 +48,7 @@ export class AvatarFormDialogComponent implements OnInit {
   profileImageSrc: string | ArrayBuffer  | null = null;
   loading: boolean = false;
   game_versions: string[] = [];
+  tags: string[] = [];
 
   constructor(
     private supabaseService: SupabaseService,
@@ -73,7 +76,7 @@ export class AvatarFormDialogComponent implements OnInit {
           console.log(data);
         }).catch(error => {
           this.snackbarService.showSnackbar('error', `Error uploading image file`);
-          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+          this.supabaseService.deleteAvatar(newAvatarId).catch(() => {
             console.error(`Error deleting avatar`);
           });
         });
@@ -84,7 +87,7 @@ export class AvatarFormDialogComponent implements OnInit {
           console.log(data);
         }).catch(error => {
           this.snackbarService.showSnackbar('error', `Error uploading image file`);
-          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+          this.supabaseService.deleteAvatar(newAvatarId).catch(() => {
             console.error(`Error deleting avatar`);
           });
         });
@@ -95,10 +98,18 @@ export class AvatarFormDialogComponent implements OnInit {
           console.log(data);
         }).catch(error => {
           this.snackbarService.showSnackbar('error', `Error uploading config file`);
-          this.supabaseService.deleteAvatar(newAvatarId).catch(error => {
+          this.supabaseService.deleteAvatar(newAvatarId).catch(() => {
             console.error(`Error deleting avatar`);
           });
         });
+      }
+
+      if(this.tags.length > 0) {
+        await this.supabaseService.addAvatarTags(newAvatarId, this.tags).then((data) => {
+          console.log(data);
+        }).catch(() => {
+          this.snackbarService.showSnackbar('error', `Error adding tags to avatar`);
+        })
       }
     }).catch(error => {
       console.error(`Error creating avatar: `, error);
@@ -136,6 +147,24 @@ export class AvatarFormDialogComponent implements OnInit {
       console.log(e)
       this.snackbarService.showSnackbar('error', e.message);
     });
+  }
+
+  addTag(event: MatChipInputEvent, input: HTMLInputElement): void {
+    const value = event.value.trim();
+
+    if(this.tags.length >= 10){
+      this.snackbarService.showSnackbar('error', 'Maximum of 10 tags allowed.');
+      return;
+    }
+
+    if (value && !this.tags.includes(value)) {
+      this.tags.push(value.trim());
+      input.value = '';
+    }
+  }
+
+  removeTag(tagToRemove: string): void {
+    this.tags = this.tags.filter(tag => tag !== tagToRemove.trim());
   }
 
   formValid(){

@@ -85,6 +85,8 @@ export class SupabaseService {
       if (data) {
         for (const avatar of data) {
           avatar.images = await this.getAvatarImages(avatar.id);
+          avatar.tags = await this.getAvatarTags(avatar.id);
+          console.log(avatar);
         }
       }
 
@@ -112,6 +114,8 @@ export class SupabaseService {
       if (data) {
         for (const avatar of data) {
           avatar.images = await this.getAvatarImages(id);
+          avatar.tags = await this.getAvatarTags(id);
+          console.log(avatar);
         }
       }
 
@@ -146,6 +150,26 @@ export class SupabaseService {
           avatarImages.push(data.publicUrl);
         }
         resolve(avatarImages);
+      }
+    });
+  }
+
+  async getAvatarTags(avatarId: number): Promise<Array<string>> {
+    const avatarTags: string[] = [];
+    return new Promise<Array<string>>(async (resolve, reject) => {
+      const { data, error } = await supabase
+        .from('tags')
+        .select('tag')
+        .eq('avatar_id', avatarId);
+
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        for (const tag of data) {
+          avatarTags.push(tag.tag);
+        }
+        resolve(avatarTags);
       }
     });
   }
@@ -200,6 +224,23 @@ export class SupabaseService {
         reject(error);
       } else {
         resolve(data);
+      }
+    });
+  }
+
+  async addAvatarTags(avatarId: number, tags: string[]): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      for (const tag of tags) {
+        const { data, error } = await supabase
+          .from('tags')
+          .insert({ avatar_id: avatarId, tag: tag });
+
+        if (error) {
+          reject(error);
+          return;
+        } else {
+          resolve();
+        }
       }
     });
   }
@@ -315,6 +356,7 @@ export interface Avatar {
   export_id: string;
   score: number;
   game_version: string;
+  tags?: string[];
   user_vote?: boolean;
   user_star?: boolean;
 }

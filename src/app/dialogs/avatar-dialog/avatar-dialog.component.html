@@ -17,6 +17,11 @@
       </igx-carousel>
       <h3></h3>
       <p>Game Version: {{ data.avatar.game_version }} </p>
+
+      <p *ngIf="data.avatar.tags && data.avatar.tags.length > 0">Tags</p>
+      <mat-chip-set aria-label="Avatar Tags">
+        <mat-chip *ngFor="let tag of data.avatar.tags">{{ tag }}</mat-chip>
+      </mat-chip-set>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions id="avatar-actions">

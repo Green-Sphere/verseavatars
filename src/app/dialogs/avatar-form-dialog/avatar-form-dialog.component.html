@@ -3,7 +3,7 @@
     <div id="form-section">
         <mat-form-field>
             <mat-label>Name</mat-label>
-            <input [disabled]="loading" matInput [(ngModel)]="name" [maxlength]="nameLength" required />
+            <input [disabled]="loading" matInput [(ngModel)]="name" [maxlength]="inputLength" required />
             <mat-error>Name is required</mat-error>
         </mat-form-field>
 
@@ -22,6 +22,29 @@
             <input [disabled]="loading" hidden (change)="onConfigFileSelected($event)" #configFileInput type="file" accept=".chf" />
         </div>
         <span class="file-name">{{configFile?.name}}</span>
+
+    <mat-form-field>
+      <mat-label>Tags</mat-label>
+      <mat-chip-grid #chipList>
+        <mat-chip
+            *ngFor="let tag of tags"
+            [removable]="true"
+            (removed)="removeTag(tag)"
+        >
+          {{ tag }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+            #tagInput
+            matInput
+            [disabled]="loading"
+            [matChipInputFor]="chipList"
+            [attr.maxlength]="inputLength"
+            (matChipInputTokenEnd)="addTag($event, tagInput)"
+        />
+      </mat-chip-grid>
+    </mat-form-field>
+    
     </div>
 
     <div id="imagesUpload">

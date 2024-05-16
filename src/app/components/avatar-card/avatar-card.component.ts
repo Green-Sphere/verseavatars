@@ -31,11 +31,12 @@ export class AvatarCardComponent {
   openAvatarDialog(avatar:Avatar|undefined){
     if(!avatar) return;
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      width: '400px',
       data: {avatar: avatar, currentUser: this.currentUser},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.avatarUpdated.emit(result);
+      //this.avatarUpdated.emit(result);
     });
   }
 
