@@ -7,6 +7,11 @@
     text-align: center;
     cursor: pointer;
     background-color: #0e1b26de;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.avatar-card:hover {
+    box-shadow: 0 4px 20px rgba(255,255,255, 0.3);
 }
 
 .avatar-card h3 {
@@ -14,6 +19,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 5px;
 }
 
 .image-container {
