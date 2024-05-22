@@ -1,17 +1,19 @@
 .avatar-card{
     width: auto;
-    border: 1px solid;
-    border-radius: 10px;
+    border: 1px solid rgba(255,255,255, 0.15);
+    border-radius: 8px;
     padding: 5px;
     margin: 10px;
     text-align: center;
     cursor: pointer;
     background-color: #0e1b26de;
+    box-shadow: 0 2px 5px rgba(255,255,255, 0.15);
     transition: box-shadow 0.3s ease-in-out;
 }
 
 .avatar-card:hover {
     box-shadow: 0 4px 20px rgba(255,255,255, 0.3);
+    border-color: rgba(255,255,255, 0.2);
 }
 
 .avatar-card h3 {
