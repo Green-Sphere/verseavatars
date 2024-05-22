@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #0e1b26 url("assets/images/background2.png") no-repeat ;
+    color: white;
+}
+
+mat-paginator.mat-mdc-paginator {
+    background-color: #0e1b26;
+    color: white;
+}
+
+::ng-deep .mat-mdc-paginator-navigation-next .mat-mdc-paginator-icon {
+    background-color: #0e1b26;
+    color: white;
+}
+
+svg.mat-mdc-paginator-icon {
+    fill: white;
+}
+button.mat-mdc-tooltip-trigger.mat-mdc-paginator-navigation-previous.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-disabled.mat-unthemed.mat-mdc-button-base.mat-mdc-tooltip-disabled svg {
+    fill: grey;
+}
