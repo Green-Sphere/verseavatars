@@ -1,10 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+/* Define Theme Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --primary-font-family: 'Arial, sans-serif';
+}
 
 html, body { height: 100%; }
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background: #0e1b26 url("assets/images/background2.png") no-repeat ;
+    background-size: contain;
     color: white;
 }
 
@@ -21,6 +29,23 @@ mat-paginator.mat-mdc-paginator {
 svg.mat-mdc-paginator-icon {
     fill: white;
 }
+
 button.mat-mdc-tooltip-trigger.mat-mdc-paginator-navigation-previous.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-disabled.mat-unthemed.mat-mdc-button-base.mat-mdc-tooltip-disabled svg {
     fill: grey;
+}
+
+.mat-mdc-select-value-text {
+    color: white;
+}
+
+.mdc-notched-outline__leading, .mdc-notched-outline__trailing {
+    border-color: white!important;
+}
+
+.mat-mdc-select-arrow svg path {
+    fill:white;
+}
+
+mat-slide-toggle .mdc-label{
+    color: white;
 }
