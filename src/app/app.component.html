@@ -1,7 +1,3 @@
-<app-header 
-  [userLoggedIn]="!!currentUser"
-  (loginChange)="reloadPage();"></app-header>
-
 <mat-drawer-container class="drawer-container">
   <mat-drawer #drawer [mode]="'over'">
     <div id="filter-bar">
@@ -25,43 +21,44 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <button id="filter-button" mat-raised-button (click)="drawer.toggle()">Search/Filter</button>
+    <app-header 
+      [userLoggedIn]="!!currentUser"
+      (loginChange)="reloadPage();"></app-header>
 
-    <div id="front-page-list">
-      <div class='spinner' *ngIf="loading"><mat-spinner></mat-spinner></div>
-      <h5 *ngIf="!loading && totalAvatars == 0" id="empty-message">No avatars found.</h5>
-      <div *ngIf="!loading" id="avatars">
-        <app-avatar-card 
-          *ngFor="let avatar of avatars" 
-          [avatar]="avatar"
-          [currentUser]="currentUser"
-          (avatarUpdated)="getAvatars()"></app-avatar-card>
-      </div>
-    
-      <mat-paginator
-        *ngIf="totalAvatars > 0"
-        [length]="totalAvatars"
-        [pageSize]="pageData.pageSize"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        (page)="getAvatars($event)"
-      >
-      </mat-paginator>
-    </div>
-    
-    <div class="add-button-container" matTooltip="You must be logged in to add an avatar" [matTooltipDisabled]="!!currentUser">
-      <button mat-fab color="primary" 
-        matTooltip="Add an avatar"
-        aria-label="Add an avatar" 
-        [disabled]="!currentUser"
-        (click)="newAvatarDialog()"
-        >
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
+        <button id="filter-button" mat-raised-button (click)="drawer.toggle()">Search/Filter</button>
+
+        <div id="front-page-list">
+          <div class='spinner' *ngIf="loading"><mat-spinner></mat-spinner></div>
+          <h5 *ngIf="!loading && totalAvatars == 0" id="empty-message">No avatars found.</h5>
+          <div *ngIf="!loading" id="avatars">
+            <app-avatar-card 
+              *ngFor="let avatar of avatars" 
+              [avatar]="avatar"
+              [currentUser]="currentUser"
+              (avatarUpdated)="getAvatars()"></app-avatar-card>
+          </div>
+        
+          <mat-paginator
+            *ngIf="totalAvatars > 0"
+            [length]="totalAvatars"
+            [pageSize]="pageData.pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="getAvatars($event)"
+          >
+          </mat-paginator>
+        </div>
+        
+        <div class="add-button-container" matTooltip="You must be logged in to add an avatar" [matTooltipDisabled]="!!currentUser">
+          <button mat-fab color="primary" 
+            matTooltip="Add an avatar"
+            aria-label="Add an avatar" 
+            [disabled]="!currentUser"
+            (click)="newAvatarDialog()"
+            >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        
+    <app-footer></app-footer>
   </mat-drawer-content>
 </mat-drawer-container>
-  
-<!-- Might move to component later-->
-
-
-<app-footer></app-footer>

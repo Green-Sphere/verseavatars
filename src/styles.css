@@ -16,10 +16,13 @@ body {
     color: white;
 }
 
-app-root{
-    display: block;
+.mat-drawer-content{
     width: 90%;
     margin: auto;
+}
+
+.mat-drawer-container {
+    min-height: 100vh;
 }
 
 mat-paginator.mat-mdc-paginator {
