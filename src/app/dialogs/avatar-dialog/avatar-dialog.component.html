@@ -26,6 +26,6 @@
 </mat-dialog-content>
 <mat-dialog-actions id="avatar-actions">
   <button [disabled]="loading" color="warn" mat-raised-button *ngIf="data?.currentUser?.id === data.avatar.owner" (click)="deleteAvatar()">{{deleteConfirm ? 'Really Delete?' : 'Delete'}}</button>
-  <button [disabled]="loading" mat-icon-button [disabled]="!data.currentUser" (click)="toggleStar()"><mat-icon>{{data.avatar.user_star ? 'star' : 'star_outline'}}</mat-icon></button>
+  <button [disabled]="loading" mat-icon-button [disabled]="!data.currentUser" (click)="toggleStar()"><mat-icon class="star-icon">{{data.avatar.user_star ? 'star' : 'star_outline'}}</mat-icon></button>
   <button [disabled]="loading" mat-raised-button (click)="downloadAvatar()">Download</button>
 </mat-dialog-actions>

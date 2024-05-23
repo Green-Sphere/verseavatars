@@ -81,15 +81,15 @@ export class SupabaseService {
       }
   
       if (filters.liked) {
-        query = query.eq('user_vote', true);
+        query = query.eq('user_vote', 1);
       }
   
       if (filters.disliked) {
-        query = query.eq('user_vote', false);
+        query = query.eq('user_vote', -1);
       }
   
       if (filters.starred) {
-        query = query.eq('user_star', true);
+        query = query.eq('user_star', 1);
       }
 
       if(pageData) {
@@ -100,6 +100,8 @@ export class SupabaseService {
 
       if (data) {
         for (const avatar of data) {
+          avatar.user_vote = avatar.user_vote === 1? true : avatar.user_vote === -1? false : null;
+          avatar.user_star = avatar.user_star === 1? true : false;
           avatar.images = [
             `${this.bucketURL}${avatar.id}/images/front`, 
             `${this.bucketURL}${avatar.id}/images/profile`
@@ -129,6 +131,9 @@ export class SupabaseService {
 
       if (data) {
         for (const avatar of data) {
+          console.log(avatar.user_vote);
+          avatar.user_vote = avatar.user_vote === 1? true : avatar.user_vote === -1? false : null;
+          avatar.user_star = avatar.user_star === 1? true : false;
           avatar.images = [
             `${this.bucketURL}${avatar.id}/images/front`, 
             `${this.bucketURL}${avatar.id}/images/profile`
@@ -303,8 +308,7 @@ export class SupabaseService {
     return new Promise<void>(async (resolve, reject) => {
       const { data, error } = await supabase
         .from('votes')
-        .upsert({ avatar_id: avatarId, user_id: userId, vote_type: vote })
-        .select();
+        .upsert({ avatar_id: avatarId, user_id: userId, vote_type: vote });
 
       if (error) {
         reject(error);
