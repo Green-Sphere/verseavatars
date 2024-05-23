@@ -19,11 +19,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatCheckboxModule, FormsModule, MatInputModule, MatSlideToggleModule],
+  imports: [RouterOutlet, HeaderComponent, AvatarCardComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatCheckboxModule, FormsModule, MatInputModule, MatSlideToggleModule, MatSidenavModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

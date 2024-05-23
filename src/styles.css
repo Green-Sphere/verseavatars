@@ -16,6 +16,12 @@ body {
     color: white;
 }
 
+app-root{
+    display: block;
+    width: 90%;
+    margin: auto;
+}
+
 mat-paginator.mat-mdc-paginator {
     background-color: #0e1b26;
     color: white;
