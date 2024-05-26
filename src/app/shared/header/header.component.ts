@@ -22,8 +22,8 @@ export class HeaderComponent {
 
   loginDialog(){
     const dialogRef = this.dialog.open(LoginDialogComponent, {
-      height: '400px',
-      width: '600px',
+      width: '500px',
+      panelClass: 'verse-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -35,8 +35,8 @@ export class HeaderComponent {
 
   signupDialog(){
     const dialogRef = this.dialog.open(SignupDialogComponent, {
-      height: '400px',
-      width: '600px',
+      width: '500px',
+      panelClass: 'verse-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,7 +45,9 @@ export class HeaderComponent {
   }
 
   logoutDialog(){
-    const dialogRef = this.dialog.open(LogoutDialogComponent);
+    const dialogRef = this.dialog.open(LogoutDialogComponent, {
+      panelClass: 'verse-dialog'
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {

@@ -9,6 +9,10 @@
     background-color: #80808099;
 }
 
+.image-container img {
+    width: 100%;
+}
+
 #avatar-actions {
     display: flex;
     justify-content: space-around;
@@ -16,4 +20,22 @@
 
 .star-icon{
     color: #ffd700;
+}
+
+/* Dialogs */
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    background-color: #0e1b26 !important;
+    color: white;
+    box-shadow: 0 2px 5px rgba(255,255,255, 0.15);
+    border: 1px solid rgba(255,255,255, 0.15);
+}
+
+::ng-deep .mat-mdc-dialog-title {
+    color: white !important;
+    font-size: 4vh !important;
+    text-align: center;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__content {
+    color: white !important;
 }

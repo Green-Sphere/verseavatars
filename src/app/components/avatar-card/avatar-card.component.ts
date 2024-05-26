@@ -33,6 +33,7 @@ export class AvatarCardComponent {
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
       width: '400px',
       data: {avatar: avatar, currentUser: this.currentUser},
+      panelClass: 'verse-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
