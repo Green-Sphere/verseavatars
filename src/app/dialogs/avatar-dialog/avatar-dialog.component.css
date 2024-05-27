@@ -9,8 +9,13 @@
     background-color: #80808099;
 }
 
-.image-container img {
-    width: 100%;
+.image-container {
+    height: 100%;
+}
+
+.igx-slide {
+    background: transparent !important;
+    text-align: center;
 }
 
 #avatar-actions {
