@@ -12,7 +12,7 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background: #0e1b26 url("assets/images/background2.png") no-repeat ;
-    background-size: contain;
+    background-size: 100%;
     color: white;
 }
 
