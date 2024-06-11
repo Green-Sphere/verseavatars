@@ -16,12 +16,26 @@
             <mat-error>Game Version is required</mat-error>
         </mat-form-field>
 
-        <div id="configUpload">
-            <mat-label>Config File</mat-label>
-            <button [disabled]="loading" type="button" mat-raised-button (click)="configFileInput.click()">Choose File</button>
-            <input [disabled]="loading" hidden (change)="onConfigFileSelected($event)" #configFileInput type="file" accept=".chf" />
+        <div *ngIf="!configFile" id="configUpload" ngClass="{{dragAreaClassConfig}}"
+          draggable="true">
+          <input type="file" #configUpload (change)="onConfigFileSelected($event)" accept=".chf">
+          <mat-icon>upload</mat-icon>
+          <h5>Drag and drop config file</h5>
+          <h5> - or - </h5>
+          <button mat-raised-button color="primary" (click)="configUpload.click()">Choose File</button>
+          <span class="label-small">The config file is a '.chf' file that is found in your 'USER' folder where Star Citizen is installed.</span>
         </div>
-        <span class="file-name">{{configFile?.name}}</span>
+        <div *ngIf="configFile" class="single-file">
+          <div class="info">
+            <h4 class="name">
+              {{ configFile.name }}
+            </h4>
+            <p class="size">
+              {{ formatBytes(configFile.size) }}
+            </p>
+          </div>
+          <mat-icon class="delete" (click)="deleteFile('config')">delete</mat-icon>
+        </div>
 
     <mat-form-field>
       <mat-label>Tags</mat-label>
@@ -48,18 +62,38 @@
     </div>
 
     <div id="imagesUpload">
-        <mat-label>Front Image</mat-label>
-        <button [disabled]="loading" type="button" mat-raised-button (click)="frontImageFileInput.click()">Choose File</button>
-        <input [disabled]="loading" hidden (change)="onFrontImageFileSelected($event)" #frontImageFileInput type="file" accept="image/*" />
-        <img id="blah" [src]="frontImageSrc"/>
+      <mat-label>Front Image</mat-label>
+      <div *ngIf="!frontImage" id="frontImageUpload" ngClass="{{dragAreaClassFront}}" draggable="true">
+        <input type="file" name="frontImageUpload" #frontImageUpload (change)="onFrontImageFileSelected($event)" accept="image/*">
+        <mat-icon>upload</mat-icon>
+        <h5>Drag and drop image file</h5>
+        <h5> - or - </h5>
+        <button mat-raised-button color="primary" (click)="frontImageUpload.click()">Choose File</button>
+      </div>
+      <div *ngIf="frontImage" class="uploadedImage">
+        <img id="frontImage" [src]="frontImageSrc"/>
+        <div class="overlay">
+          <mat-icon class="delete" (click)="deleteFile('front')">delete</mat-icon>
+        </div>
+      </div>
     </div>
     
 
     <div id="imagesUpload">
         <mat-label>Profile Image</mat-label>
-        <button [disabled]="loading" type="button" mat-raised-button (click)="profileImageFileInput.click()">Choose File</button>
-        <input [disabled]="loading" hidden (change)="onProfileImageFileSelected($event)" #profileImageFileInput type="file" accept="image/*" />
-        <img id="blah" [src]="profileImageSrc"/>
+        <div *ngIf="!profileImage" id="profileImageUpload" ngClass="{{dragAreaClassProfile}}" draggable="true">
+          <input type="file" name="profileImageUpload" #profileImageUpload (change)="onProfileImageFileSelected($event)" accept="image/*">
+          <mat-icon>upload</mat-icon>
+          <h5>Drag and drop image file</h5>
+          <h5> - or - </h5>
+          <button mat-raised-button color="primary" (click)="profileImageUpload.click()">Choose File</button>
+        </div>
+        <div *ngIf="profileImage" class="uploadedImage">
+          <img id="profileImage" [src]="profileImageSrc"/>
+          <div class="overlay">
+            <mat-icon class="delete" (click)="deleteFile('profile')">delete</mat-icon>
+          </div>
+        </div>
     </div>
 </mat-dialog-content>
 

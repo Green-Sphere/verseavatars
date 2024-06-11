@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -49,6 +49,9 @@ export class AvatarFormDialogComponent implements OnInit {
   loading: boolean = false;
   game_versions: string[] = [];
   tags: string[] = [];
+  dragAreaClassFront: string | undefined;
+  dragAreaClassProfile: string | undefined;
+  dragAreaClassConfig: string | undefined;
 
   constructor(
     private supabaseService: SupabaseService,
@@ -120,9 +123,10 @@ export class AvatarFormDialogComponent implements OnInit {
   }
 
   onFrontImageFileSelected(event: any): void {
-    this.frontImage = event.target.files[0] ?? null;
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+    const fileAttached = event.target?.files ? event.target?.files[0] : event.dataTransfer?.files[0];
+    this.frontImage = fileAttached;
+    if (fileAttached) {
+      const file = fileAttached;
       const reader = new FileReader();
       reader.onload = e => this.frontImageSrc = reader.result;
       reader.readAsDataURL(file);
@@ -130,9 +134,10 @@ export class AvatarFormDialogComponent implements OnInit {
   }
 
   onProfileImageFileSelected(event: any): void {
-    this.profileImage = event.target.files[0] ?? null;
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+    const fileAttached = event.target?.files ? event.target.files[0] : event.dataTransfer?.files[0];
+    this.profileImage = fileAttached;
+    if (fileAttached) {
+      const file = fileAttached;
       const reader = new FileReader();
       reader.onload = e => this.profileImageSrc = reader.result;
       reader.readAsDataURL(file);
@@ -140,9 +145,10 @@ export class AvatarFormDialogComponent implements OnInit {
   }
 
   async onConfigFileSelected(event: any) {
-    this.validateFile(event.target.files[0]).then(() => {
-      console.log(event.target.files[0]);
-      this.configFile = event.target.files[0];
+    const fileAttached = event.target?.files ? event.target?.files[0] : event.dataTransfer?.files[0];
+    this.validateFile(fileAttached).then(() => {
+      console.log(fileAttached);
+      this.configFile = fileAttached;
     }).catch((e) => {
       console.log(e)
       this.snackbarService.showSnackbar('error', e.message);
@@ -205,6 +211,79 @@ export class AvatarFormDialogComponent implements OnInit {
 
       reader.readAsArrayBuffer(file);
     });
+  }
+
+  deleteFile(file: string) {
+    switch(file) {
+      case 'front':
+        this.frontImage = null;
+        this.frontImageSrc = null;
+        break;
+      case 'profile':
+        this.profileImage = null;
+        this.profileImageSrc = null;
+        break;
+      case 'config':
+        this.configFile = null;
+        break;
+    }
+  }
+
+  formatBytes(bytes: number, decimals = 2) {
+    if (bytes === 0) {
+      return "0 Bytes";
+    }
+    const k = 1024;
+    const dm = decimals <= 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+
+  @HostListener("dragover", ["$event"]) onDragOver(event: any) {
+    console.log("dragover");
+    event && event.preventDefault();
+    event && event.stopPropagation();
+    const enclosingDivId = event.target.closest('div').id;
+    if(enclosingDivId === 'frontImageUpload') {
+      this.dragAreaClassFront = "fileover";
+    } else if(enclosingDivId === 'profileImageUpload') {
+      this.dragAreaClassProfile = "fileover";
+    } else if(enclosingDivId === 'configUpload') {
+      this.dragAreaClassConfig = "fileover";
+    }
+  }
+
+  @HostListener("dragleave", ["$event"]) onDragLeave(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const enclosingDivId = event.target.closest('div').id;
+    if(enclosingDivId === 'frontImageUpload') {
+      this.dragAreaClassFront = "";
+    } else if(enclosingDivId === 'profileImageUpload') {
+      this.dragAreaClassProfile = "";
+    } else if(enclosingDivId === 'configUpload') {
+      this.dragAreaClassConfig = "";
+    }
+  }
+
+  @HostListener("drop", ["$event"]) onDrop(event: any) {
+    event && event.preventDefault();
+    event && event.stopPropagation();
+    const files = event.dataTransfer?.files;
+    const enclosingDivId = event.target.closest('div').id;
+    if (files && files.length > 0) {
+      if(enclosingDivId === 'frontImageUpload') {
+        this.onFrontImageFileSelected(event);
+        this.dragAreaClassFront = "";
+      } else if(enclosingDivId === 'profileImageUpload') {
+        this.onProfileImageFileSelected(event);
+        this.dragAreaClassProfile = "";
+      } else if(enclosingDivId === 'configUpload') {
+        this.onConfigFileSelected(event);
+        this.dragAreaClassConfig = "";
+      }
+    }
   }
 
 }

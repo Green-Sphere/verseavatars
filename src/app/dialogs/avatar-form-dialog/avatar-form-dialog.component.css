@@ -75,3 +75,168 @@
 :host ::ng-deep .mat-mdc-standard-chip .mat-mdc-chip-action-label {
     overflow: hidden;
 }
+
+.label-small{
+    text-align: center;
+    font-size: 10px;
+    margin: 0 10px;
+}
+
+/* Config File Upload */
+#configUpload {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+#frontImageUpload, #profileImageUpload {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+#configUpload input, #frontImageUpload input, #profileImageUpload input {
+    visibility: hidden;
+}
+
+#configUpload button, #frontImageUpload button, #profileImageUpload button {
+    margin-bottom: 10px;
+}
+
+#configUpload h5, #frontImageUpload h5, #profileImageUpload h5 {
+    text-align: center;
+    margin: 5px auto;
+}
+
+.uploadedImage{
+    position: relative;
+    cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #00000073;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.uploadedImage .delete {
+    color: red;
+    transform: scale(5);
+}
+  
+.uploadedImage:hover .overlay{
+    opacity: 1;
+}
+
+
+/* All file uploads */
+.single-file {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    border: dashed 1px #979797;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.single-file .delete {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.single-file .name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #353f4a;
+    margin: 0;
+}
+
+.single-file .size {
+    font-size: 12px;
+    font-weight: 500;
+    color: #a4a4a4;
+    margin: 0;
+    margin-bottom: 0.25rem;
+}
+
+.single-file .info {
+    width: 100%
+}
+
+.fileover {
+    animation: shake 1s;
+    animation-iteration-count: infinite;
+}
+
+
+
+/* Shake animation */
+@keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+  
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+  
+    20% {
+      transform: translate(-3px, 0px) rotate(1deg);
+    }
+  
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+  
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+  
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+  
+    60% {
+      transform: translate(-3px, 1px) rotate(0deg);
+    }
+  
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+  
+    80% {
+      transform: translate(-1px, -1px) rotate(1deg);
+    }
+  
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+  
+    100% {
+      transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
