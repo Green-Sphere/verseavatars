@@ -7,6 +7,7 @@
 
 #form-section {
     min-width: 300px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,7 +85,7 @@
 
 /* Config File Upload */
 #configUpload {
-    width: 80%;
+    width: 100%;
     margin: 10px auto;
     display: flex;
     flex-direction: column;
